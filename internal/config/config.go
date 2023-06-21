@@ -20,6 +20,9 @@ type VRChatConfig struct {
 	OSCHost string
 	OSCPort int
 
+	// OSC Ratelimit (milliseconds per message)
+	Ratelimit int
+
 	// The formatted string that will be displayed if there **are lyrics** in the current track
 	// Available fields: {{.artist}}, {{.name}}, {{.line}}, {{.trackID}}
 	LyricsFormat string

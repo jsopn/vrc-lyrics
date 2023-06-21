@@ -16,7 +16,7 @@ func reverse[S ~[]E, E any](s S) {
 }
 
 func Run(cfg *config.Config) error {
-	oscClient := osc.New(cfg.VRChat.OSCHost, cfg.VRChat.OSCPort)
+	oscClient := osc.New(cfg.VRChat.OSCHost, cfg.VRChat.OSCPort, cfg.VRChat.Ratelimit)
 	spt := spotify.New(cfg.Spotify.Token, cfg.Spotify.SPDCCookie)
 
 	log.Println("Connecting to Spotify's WebSocket")

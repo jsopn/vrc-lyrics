@@ -10,21 +10,23 @@ import (
 )
 
 type OSC struct {
-	client *osc.Client
+	client    *osc.Client
+	rateLimit int64
 
 	lastMessage string
 	lastSend    time.Time
 }
 
-func New(host string, port int) *OSC {
+func New(host string, port, rateLimit int) *OSC {
 	return &OSC{
-		client: osc.NewClient(host, port),
+		client:    osc.NewClient(host, port),
+		rateLimit: int64(rateLimit),
 	}
 }
 
 func (o *OSC) Send(format string, data map[string]interface{}) error {
 	// To avoid VRChat's rate-limits
-	if time.Since(o.lastSend).Milliseconds() < 850 {
+	if time.Since(o.lastSend).Milliseconds() < o.rateLimit {
 		return nil
 	}
 

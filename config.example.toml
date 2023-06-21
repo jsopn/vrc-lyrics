@@ -7,6 +7,9 @@ SPDCCookie = ""
 OSCHost = "127.0.0.1"
 OSCPort = 9000
 
+# OSC Ratelimit (milliseconds per message)
+Ratelimit = 1200
+
 # The formatted string that will be displayed if there **are lyrics** in the current track
 # Available fields: {{.artist}}, {{.name}}, {{.trackID}}, {{.line}}
 LyricsFormat = "▶️ {{.artist}} - {{.name}}                                                   🎵 {{.line}}"
