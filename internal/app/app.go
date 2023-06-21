@@ -75,6 +75,10 @@ func Run(cfg *config.Config) error {
 			delta := time.Since(playbackState.UpdatedAt)
 			currentPosition := playbackState.CurrentMS + delta
 
+			if playbackState.IsPaused {
+				currentPosition = playbackState.CurrentMS
+			}
+
 			data := map[string]interface{}{
 				"trackID":    playbackState.TrackID,
 				"artist":     trackMetadata.Artists,
