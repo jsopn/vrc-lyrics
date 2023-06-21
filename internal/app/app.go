@@ -71,11 +71,16 @@ func Run(cfg *config.Config) error {
 				continue
 			}
 
+			delta := time.Since(playbackState.UpdatedAt)
+			currentPosition := playbackState.CurrentMS + delta
+
 			data := map[string]interface{}{
-				"trackID": playbackState.TrackID,
-				"artist":  trackMetadata.Artists,
-				"album":   trackMetadata.Album,
-				"name":    trackMetadata.Name,
+				"trackID":    playbackState.TrackID,
+				"artist":     trackMetadata.Artists,
+				"album":      trackMetadata.Album,
+				"name":       trackMetadata.Name,
+				"currentPos": fmt.Sprintf("%d:%02d", int(currentPosition.Seconds())/60, int(currentPosition.Seconds())%60),
+				"duration":   fmt.Sprintf("%d:%02d", int(playbackState.Duration.Seconds())/60, int(playbackState.Duration.Seconds())%60),
 			}
 
 			if playbackState.IsPaused && cfg.VRChat.PausedFormat != "" {
@@ -86,10 +91,7 @@ func Run(cfg *config.Config) error {
 			}
 
 			ticker.Reset(500 * time.Millisecond)
-
-			delta := time.Since(playbackState.UpdatedAt).Milliseconds()
-			currentMS := playbackState.CurrentMS.Milliseconds() + delta
-			line := spotify.GetCurrentWords(syncedLyrics, int(currentMS))
+			line := spotify.GetCurrentWords(syncedLyrics, int(currentPosition.Milliseconds()))
 
 			if len(syncedLyrics) == 0 || line == "" {
 				oscClient.Send(cfg.VRChat.NoLyricsFormat, data)
