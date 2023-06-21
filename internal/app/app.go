@@ -37,7 +37,7 @@ func Run(cfg *config.Config) error {
 
 	log.Println("Connected.")
 
-	ticker := time.NewTicker(300 * time.Millisecond)
+	ticker := time.NewTicker(500 * time.Millisecond)
 	defer ticker.Stop()
 
 	var playbackState *spotify.PlaybackState
@@ -85,11 +85,11 @@ func Run(cfg *config.Config) error {
 				continue
 			}
 
-			ticker.Reset(300 * time.Millisecond)
+			ticker.Reset(500 * time.Millisecond)
 
-			delta := int(time.Now().UnixMilli()) - playbackState.UpdatedAt
-			currentMS := playbackState.CurrentMS + delta
-			line := spotify.GetCurrentWords(syncedLyrics, currentMS)
+			delta := time.Since(playbackState.UpdatedAt).Milliseconds()
+			currentMS := playbackState.CurrentMS.Milliseconds() + delta
+			line := spotify.GetCurrentWords(syncedLyrics, int(currentMS))
 
 			if len(syncedLyrics) == 0 || line == "" {
 				oscClient.Send(cfg.VRChat.NoLyricsFormat, data)
