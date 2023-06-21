@@ -11,13 +11,13 @@ OSCPort = 9000
 Ratelimit = 1200
 
 # The formatted string that will be displayed if there **are lyrics** in the current track
-# Available fields: {{.artist}}, {{.name}}, {{.trackID}}, {{.line}}
-LyricsFormat = "▶️ {{.artist}} - {{.name}}                                                   🎵 {{.line}}"
+# Available fields: {{.artist}}, {{.name}}, {{.trackID}}, {{.currentPos}}, {{.duration}}, {{.line}}
+LyricsFormat = "▶️ 🎵 {{.line}}"
 
 # Formatted string that will be displayed if there are **no lyrics** in the track
 # Available fields: {{.artist}}, {{.name}}, {{.trackID}}
-NoLyricsFormat = "▶️ {{.artist}} - {{.name}}"
+NoLyricsFormat = "▶️ {{.artist}} - {{.name}} [{{.currentPos}} / {{.duration}}]"
 
 # Formatted string that will be displayed if track is paused
 # Available fields: {{.artist}}, {{.name}}, {{.trackID}}
-PausedFormat = "⏸️ {{.artist}} - {{.name}}"
+PausedFormat = "⏸️ {{.artist}} - {{.name}} [{{.currentPos}} / {{.duration}}]"
