@@ -10,8 +10,10 @@ import (
 )
 
 type OSC struct {
-	client      *osc.Client
-	lastOSCSend time.Time
+	client *osc.Client
+
+	lastMessage string
+	lastSend    time.Time
 }
 
 func New(host string, port int) *OSC {
@@ -22,7 +24,7 @@ func New(host string, port int) *OSC {
 
 func (o *OSC) Send(format string, data map[string]interface{}) error {
 	// To avoid VRChat's rate-limits
-	if time.Since(o.lastOSCSend).Milliseconds() < 750 {
+	if time.Since(o.lastSend).Milliseconds() < 850 {
 		return nil
 	}
 
@@ -33,6 +35,9 @@ func (o *OSC) Send(format string, data map[string]interface{}) error {
 	}
 
 	s := buf.String()
+	if o.lastMessage == s {
+		return nil
+	}
 
 	msg := osc.NewMessage("/chatbox/input")
 	msg.Append(s)
@@ -41,6 +46,7 @@ func (o *OSC) Send(format string, data map[string]interface{}) error {
 
 	log.Println(s)
 
-	o.lastOSCSend = time.Now()
+	o.lastMessage = s
+	o.lastSend = time.Now()
 	return o.client.Send(msg)
 }

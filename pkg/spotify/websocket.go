@@ -19,10 +19,10 @@ type PlaybackState struct {
 	IsPlaying bool
 	IsPaused  bool
 
-	CurrentMS int
-	Duration  int
+	CurrentMS time.Duration
+	Duration  time.Duration
 
-	UpdatedAt int
+	UpdatedAt time.Time
 }
 
 func (s *SpotifyClient) RegisterDevice() (err error) {
@@ -128,7 +128,7 @@ func (s *SpotifyClient) WSHandler(conn *websocket.Conn, ch chan *PlaybackState) 
 		contextURI := string(playerState.GetStringBytes("track", "uri"))
 
 		position, err := strconv.Atoi(string(playerState.GetStringBytes("position_as_of_timestamp")))
-		if err != nil {
+		if err != nil || (position > 1500 && position < 3000) {
 			continue
 		}
 
@@ -147,10 +147,10 @@ func (s *SpotifyClient) WSHandler(conn *websocket.Conn, ch chan *PlaybackState) 
 
 			IsPlaying: isPlaying,
 			IsPaused:  isPaused,
-			CurrentMS: position,
-			Duration:  duration,
+			CurrentMS: time.Duration(position) * time.Millisecond,
+			Duration:  time.Duration(duration) * time.Millisecond,
 
-			UpdatedAt: timestamp,
+			UpdatedAt: time.UnixMilli(int64(timestamp)),
 		}
 	}
 }
