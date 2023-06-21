@@ -1,0 +1,20 @@
+[Spotify]
+# SP_DC cookie from the open.spotify.com, which will be used to get the token
+SPDCCookie = ""
+
+[VRChat]
+# Connection data for VRChat's OSC
+OSCHost = "127.0.0.1"
+OSCPort = 9000
+
+# The formatted string that will be displayed if there **are lyrics** in the current track
+# Available fields: {{.artist}}, {{.name}}, {{.trackID}}, {{.line}}
+LyricsFormat = "▶️ {{.artist}} - {{.name}}                                                   🎵 {{.line}}"
+
+# Formatted string that will be displayed if there are **no lyrics** in the track
+# Available fields: {{.artist}}, {{.name}}, {{.trackID}}
+NoLyricsFormat = "▶️ {{.artist}} - {{.name}}"
+
+# Formatted string that will be displayed if track is paused
+# Available fields: {{.artist}}, {{.name}}, {{.trackID}}
+PausedFormat = "⏸️ {{.artist}} - {{.name}}"
