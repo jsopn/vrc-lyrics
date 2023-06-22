@@ -1,6 +1,13 @@
 # VRChat Lyrics
 Display the track and its lyrics in VRChat's chatbox using the OSC.
 
+<p align="center">
+  <img src="https://media.jsopn.com/2023/06/rusk-supremacy.gif" alt="animated" />
+</p>
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=E9Z8QYMoFHg">Installation guide</a>
+</p>
+
 ## Installation
 1. **Download** the latest version of the software from the [release section](https://github.com/jsopn/vrc-lyrics/releases).
 2. **Copy** the `config.example.toml` file and rename it as `config.toml`. Place the `config.toml` file next to the software executable.
