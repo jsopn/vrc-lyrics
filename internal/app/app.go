@@ -10,12 +10,6 @@ import (
 	"github.com/jsopn/vrc-lyrics/pkg/spotify"
 )
 
-func reverse[S ~[]E, E any](s S) {
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
-	}
-}
-
 func Run(cfg *config.Config) error {
 	oscClient := osc.New(cfg.VRChat.OSCHost, cfg.VRChat.OSCPort, cfg.VRChat.Ratelimit)
 	spt := spotify.New(cfg.Spotify.Token, cfg.Spotify.SPDCCookie)
@@ -63,8 +57,6 @@ func Run(cfg *config.Config) error {
 				} else {
 					log.Println("No lyrics found for this track.")
 				}
-
-				reverse(syncedLyrics)
 			}
 
 		case <-ticker.C:

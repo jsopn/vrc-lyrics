@@ -65,12 +65,13 @@ func (s *SpotifyClient) GetLyrics(trackID string) (lyrics []LyricsLines, err err
 }
 
 func GetCurrentWords(lyrics []LyricsLines, currentMs int) string {
-	for _, v := range lyrics {
-		if currentMs < v.StartTime {
+	for i := len(lyrics) - 1; i >= 0; i-- {
+		line := lyrics[i]
+		if currentMs < line.StartTime {
 			continue
 		}
 
-		return v.Words
+		return line.Words
 	}
 
 	return ""
