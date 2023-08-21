@@ -24,9 +24,9 @@ func New(host string, port, rateLimit int) *OSC {
 	}
 }
 
-func (o *OSC) Send(format string, data map[string]interface{}) error {
+func (o *OSC) Send(format string, data map[string]interface{}, skipRate bool) error {
 	// To avoid VRChat's rate-limits
-	if time.Since(o.lastSend).Milliseconds() < o.rateLimit {
+	if time.Since(o.lastSend).Milliseconds() < o.rateLimit && !skipRate {
 		return nil
 	}
 

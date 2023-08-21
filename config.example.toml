@@ -1,3 +1,7 @@
+[General]
+# Lyrics update rate
+UpdateRate = 800
+
 [Spotify]
 # SP_DC cookie from the open.spotify.com, which will be used to get the token
 SPDCCookie = ""
@@ -8,7 +12,7 @@ OSCHost = "127.0.0.1"
 OSCPort = 9000
 
 # OSC Ratelimit (milliseconds per message)
-Ratelimit = 1200
+Ratelimit = 1300
 
 # The formatted string that will be displayed if there **are lyrics** in the current track
 # Available fields: {{.artist}}, {{.name}}, {{.trackID}}, {{.currentPos}}, {{.duration}}, {{.line}}

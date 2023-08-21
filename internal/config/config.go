@@ -7,6 +7,11 @@ import (
 	"github.com/jsopn/vrc-lyrics/pkg/spotify"
 )
 
+type GeneralConfig struct {
+	// Lyrics update rate
+	UpdateRate int
+}
+
 type SpotifyConfig struct {
 	// SP_DC cookie from the open.spotify.com, which will be used to get the token
 	SPDCCookie string
@@ -37,6 +42,7 @@ type VRChatConfig struct {
 }
 
 type Config struct {
+	General GeneralConfig
 	Spotify SpotifyConfig
 	VRChat  VRChatConfig
 }

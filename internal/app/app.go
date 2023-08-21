@@ -32,7 +32,7 @@ func Run(cfg *config.Config) error {
 
 	log.Println("Connected.")
 
-	ticker := time.NewTicker(500 * time.Millisecond)
+	ticker := time.NewTicker(time.Duration(cfg.General.UpdateRate) * time.Millisecond)
 	defer ticker.Stop()
 
 	var playbackState *spotify.PlaybackState
@@ -51,6 +51,7 @@ func Run(cfg *config.Config) error {
 				syncedLyrics, _ = spt.GetLyrics(playbackState.TrackID)
 				trackMetadata, _ = spt.GetMetadata(playbackState.TrackID)
 				syncedLyricsTrackID = playbackState.TrackID
+				lastWords = ""
 
 				if len(syncedLyrics) > 0 {
 					log.Println("Lyrics updated.")
@@ -83,7 +84,7 @@ func Run(cfg *config.Config) error {
 			if playbackState.IsPaused && cfg.VRChat.PausedFormat != "" {
 				ticker.Reset(5 * time.Second)
 
-				oscClient.Send(cfg.VRChat.PausedFormat, data)
+				oscClient.Send(cfg.VRChat.PausedFormat, data, false)
 				continue
 			}
 
@@ -91,18 +92,15 @@ func Run(cfg *config.Config) error {
 			line := spotify.GetCurrentWords(syncedLyrics, int(currentPosition.Milliseconds()))
 
 			if len(syncedLyrics) == 0 || line == "" {
-				oscClient.Send(cfg.VRChat.NoLyricsFormat, data)
-				continue
-			}
-
-			if lastWords == line {
+				oscClient.Send(cfg.VRChat.NoLyricsFormat, data, false)
 				continue
 			}
 
 			lastWords = line
 			data["line"] = line
 
-			oscClient.Send(cfg.VRChat.LyricsFormat, data)
+			skipRate := lastWords == ""
+			oscClient.Send(cfg.VRChat.LyricsFormat, data, skipRate)
 		}
 	}
 }
