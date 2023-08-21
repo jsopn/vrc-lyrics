@@ -37,9 +37,6 @@ func (o *OSC) Send(format string, data map[string]interface{}) error {
 	}
 
 	s := buf.String()
-	if o.lastMessage == s {
-		return nil
-	}
 
 	msg := osc.NewMessage("/chatbox/input")
 	msg.Append(s)
