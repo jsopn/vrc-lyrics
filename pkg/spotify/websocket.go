@@ -117,13 +117,19 @@ func (s *SpotifyClient) WSHandler(conn *websocket.Conn, ch chan *PlaybackState) 
 			return
 		}
 
-		if string(msg.GetStringBytes("uri")) != "hm://connect-state/v1/cluster" || string(msg.GetStringBytes("payloads", "0", "update_reason")) != "DEVICE_STATE_CHANGED" {
+		reason := string(msg.GetStringBytes("payloads", "0", "update_reason"))
+
+		if string(msg.GetStringBytes("uri")) != "hm://connect-state/v1/cluster" || (reason != "DEVICE_STATE_CHANGED" && reason != "DEVICES_DISAPPEARED") {
 			continue
 		}
 
 		playerState := msg.Get("payloads", "0", "cluster", "player_state")
 		isPlaying := playerState.GetBool("is_playing")
 		isPaused := playerState.GetBool("is_paused")
+
+		if reason == "DEVICES_DISAPPEARED" {
+			isPaused = true
+		}
 
 		contextURI := string(playerState.GetStringBytes("track", "uri"))
 
