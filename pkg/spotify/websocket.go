@@ -19,8 +19,8 @@ type PlaybackState struct {
 	IsPlaying bool
 	IsPaused  bool
 
-	CurrentMS time.Duration
-	Duration  time.Duration
+	Current  time.Duration
+	Duration time.Duration
 
 	UpdatedAt time.Time
 }
@@ -153,7 +153,7 @@ func (s *SpotifyClient) WSHandler(conn *websocket.Conn, ch chan *PlaybackState) 
 
 			IsPlaying: isPlaying,
 			IsPaused:  isPaused,
-			CurrentMS: time.Duration(position) * time.Millisecond,
+			Current:   time.Duration(position) * time.Millisecond,
 			Duration:  time.Duration(duration) * time.Millisecond,
 
 			UpdatedAt: time.UnixMilli(int64(timestamp)),

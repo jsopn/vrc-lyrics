@@ -66,10 +66,10 @@ func Run(cfg *config.Config) error {
 			}
 
 			delta := time.Since(playbackState.UpdatedAt)
-			currentPosition := playbackState.CurrentMS + delta
+			currentPosition := playbackState.Current + delta
 
 			if playbackState.IsPaused {
-				currentPosition = playbackState.CurrentMS
+				currentPosition = playbackState.Current
 			}
 
 			data := map[string]interface{}{
