@@ -1,3 +1,8 @@
+# ⚠️ Project deprecation
+Since this project is no longer being developed you can use the <a href="https://github.com/BigAtomikku/VRC-Lyrics">alternative written in Python by @Atomikku</a> (https://github.com/BigAtomikku/VRC-Lyrics) 
+
+---
+
 # VRChat Lyrics
 Display the track and its lyrics in VRChat's chatbox using the OSC.
 
